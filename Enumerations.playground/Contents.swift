@@ -113,9 +113,58 @@ bike.manufacturer
 car.manufacturer
 
 
-enum FamilyMember: String {
+enum FamilyMember: String, CaseIterable{
     case father = "Dad"
     case mother = "Mom"
     case brother = "Bro"
     case sister = "Sis"
 }
+
+FamilyMember.allCases.forEach { mem in
+    print(mem.rawValue)
+}
+
+FamilyMember.allCases.map(\.rawValue)
+
+if let bro = FamilyMember(rawValue: "Uncle") {
+    "Found the bro"
+} else {
+    "This member doesn't exist"
+}
+
+enum Height {
+    case short, medium, long
+    mutating func makeLong() {
+        self = .long
+    }
+}
+
+var myHeight = Height.medium;
+myHeight
+myHeight
+    .makeLong()
+
+/// Recursive Enumeration
+/// or Indirect Enumeration
+indirect enum IntOperation {
+    case add(Int, Int)
+    case subtract(Int, Int)
+    case freehand(IntOperation)
+    
+    func calculateResult(
+        of operation: IntOperation? = nil
+    ) -> Int {
+        switch operation ?? self {
+        case let .add(lhs, rhs):
+            return lhs+rhs;
+        case let .subtract(lhs, rhs):
+            return lhs-rhs;
+        case let .freehand(op):
+            return calculateResult(of: op)
+        }
+    }
+}
+
+
+let freeHand = IntOperation.freehand(.add(2, 4))
+freeHand.calculateResult();
