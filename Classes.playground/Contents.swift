@@ -92,6 +92,7 @@ class Tesla {
         )
     }
 }
+let myTesla = Tesla(model: "S")
 
 class TeslaModelY: Tesla {
     override init() {
@@ -143,3 +144,58 @@ let myClosure = {
 
 
 myClosure();
+
+class Shape {
+    func getArea() -> Int {
+        return 0;
+    }
+}
+
+class Rect: Shape {
+    var sideLength: Int = 1
+    
+    // Custom getter and setter property
+    var perimeter: Int {
+        get {
+            return 4 * sideLength;
+        }
+        set {
+            sideLength = newValue / 4
+        }
+    }
+    
+    // Computed properties must be declared as `var`, you know, cause' they can change
+    var smallestSideLength: Int {
+        return self.sideLength - 1;
+    }
+    
+    // Lazily load a property
+    // subShape remains nil (uninitialized) until getter's called
+    lazy var subShape = Rect(sideLength: 4)
+    
+    // If you don't need a custom getter and setter,
+    // but still want to run code before and after getting or setting
+    // a property, you can use `willSet` and `didSet`
+    var identifier: String = "defaultID" {
+        // the `someIdentifier` arg will be the variable name for the new value
+        willSet(someIdentifier) {
+            print(someIdentifier)
+        }
+    }
+    
+    init(sideLength: Int) {
+        self.sideLength = sideLength;
+        // always super.init last when init custom properties
+        super.init();
+    }
+    
+    func shrink() {
+        if sideLength > 0 {
+            sideLength -= 1;
+        }
+    }
+    
+    override func getArea() -> Int {
+        return sideLength * sideLength;
+    }
+}

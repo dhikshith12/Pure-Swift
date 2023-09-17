@@ -112,6 +112,28 @@ switch bike {
 bike.manufacturer
 car.manufacturer
 
+/*
+    Switch
+    Must be exhaustive - meaning all possible values should be covered.
+    Does not implicitly fall through, use the fallthrough keyword -- idk what it means
+    Very powerful, think of it like `if` statements with syntax sugar
+    They support String, object instances, and primitives (Int, Double, etc)
+ 
+ */
+
+let vegetable = "red pepper";
+//let vegetable = "idk";
+let vegetableComment: String;
+switch vegetable {
+case "celery":
+    vegetableComment = "Add some raisins and make ants on a log."
+case "cucumber", "watercress": // can match multiple things at once.
+    vegetableComment = "That would make a good tea sandwich."
+case let localScopeValue where localScopeValue.hasSuffix("pepper"): // this is so cool we can use code to predicate the case
+    vegetableComment  = "Is it a spicy \(localScopeValue)?"
+default:
+    vegetableComment = "Everything tastes good in soup."
+}
 
 enum FamilyMember: String, CaseIterable{
     case father = "Dad"
