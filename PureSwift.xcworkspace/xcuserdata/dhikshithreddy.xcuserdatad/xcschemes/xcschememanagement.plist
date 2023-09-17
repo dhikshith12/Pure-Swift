@@ -46,6 +46,27 @@
 			<key>orderHint</key>
 			<integer>8</integer>
 		</dict>
+		<key>Enumerations (Playground) 1.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
+		<key>Enumerations (Playground) 2.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>16</integer>
+		</dict>
+		<key>Enumerations (Playground).xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>Functions (Playground) 1.xcscheme</key>
 		<dict>
 			<key>isShown</key>
