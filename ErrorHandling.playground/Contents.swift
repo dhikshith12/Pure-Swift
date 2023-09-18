@@ -157,3 +157,67 @@ func fullName(
 }
 
 
+enum NameErrors: Error {
+    case firstNameIsInvalid
+    case lastNameIsInvalid
+}
+
+func + (
+    firstName: String?,
+    lastName: String?
+) throws -> String {
+    guard let firstName, !firstName.isEmpty else {
+        throw NameErrors.firstNameIsInvalid
+    }
+    guard let lastName, !lastName.isEmpty else {
+        throw NameErrors.lastNameIsInvalid
+    }
+    
+    return "\(firstName) \(lastName)"
+}
+
+do {
+    let fooBar = try fullName("Foo", "Bar", op: +)
+} catch NameErrors.firstNameIsInvalid {
+   "First name is invalid"
+} catch NameErrors.lastNameIsInvalid {
+    "Last name is invalid"
+} catch let err {
+    "Some other error = \(err)"
+}
+
+
+enum IntegerErrors: Error {
+    case noPositiviveIntegerBefore(thisValue: Int)
+}
+
+func getPreviousPositiveInteger(
+    from int: Int
+) -> Result<Int, IntegerErrors> {
+    guard int > 0 else {
+        return Result.failure(
+            IntegerErrors.noPositiviveIntegerBefore(
+                thisValue: int
+            )
+        )
+    }
+    return Result.success(int-1)
+}
+
+func performGet(
+    forValue value: Int
+) {
+    switch getPreviousPositiveInteger(from: value) {
+    case let .success(previousVaue):
+        "Previous value is \(previousVaue)"
+    case let .failure(error):
+        switch error {
+        case let .noPositiviveIntegerBefore(thisValue):
+            "No positive integer before \(thisValue)"
+        }
+    }
+}
+
+performGet(forValue: 12)
+
+
