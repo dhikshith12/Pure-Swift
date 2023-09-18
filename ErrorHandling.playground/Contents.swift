@@ -78,3 +78,82 @@ do {
 } catch {
     "Some other error: \(error)"
 }
+
+if let yourCar = try? Car(manufacturer: "Tesla") {
+   "Success, your car \(yourCar)"
+} else {
+    "Failed to construct your car, and error is not accessible now"
+}
+
+
+let theirCar = try! Car(manufacturer: "Ford")
+
+theirCar.manufacturer
+
+
+struct Dog {
+    let isInjured: Bool
+    let isSleeping: Bool
+    
+    enum BarkingErrors: Error {
+        case cannotBarkIsSleeping
+    }
+    enum RunningErrors: Error {
+        case cannotRunIsInjured
+    }
+    
+    func bark() throws {
+        if isSleeping {
+            throw BarkingErrors.cannotBarkIsSleeping
+        }
+        "Bark..."
+    }
+    
+    func run() throws {
+        if isInjured {
+            throw RunningErrors.cannotRunIsInjured
+        }
+        "Running..."
+    }
+    
+    func barkAndRun() throws {
+        try bark()
+        try run()
+    }
+}
+
+let dog = Dog(isInjured: true, isSleeping: true)
+
+do {
+    try dog.barkAndRun()
+    dog
+} catch Dog.BarkingErrors.cannotBarkIsSleeping,
+        Dog.RunningErrors.cannotRunIsInjured {
+    "Cannot-bark-is-sleeping OR Cannot-run-is-injured"
+} catch {
+    "Some other error"
+}
+
+
+
+do {
+    try dog.barkAndRun()
+    dog
+} catch Dog.BarkingErrors.cannotBarkIsSleeping {
+    "Cannot-bark-is-sleeping"
+} catch Dog.RunningErrors.cannotRunIsInjured {
+    "Cannot-run-is-injured"
+} catch {
+    "Some other error"
+}
+
+// rethrows keyword needs a a throwing function argument
+func fullName(
+    _ firstName: String?,
+    _ lastName: String?,
+    op: (String?, String?) throws -> String?
+) rethrows -> String? {
+   try op(firstName, lastName)
+}
+
+
